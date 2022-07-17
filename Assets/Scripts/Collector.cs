@@ -13,6 +13,9 @@ public class Collector : MonoBehaviour
     [SerializeField] private GameObject Player;
     [SerializeField] ParticleSystem collectEffect;
     [SerializeField] ParticleSystem finishFireworks;
+    public AudioClip audioClip;
+    AudioSource audioSource;
+    [SerializeField] private Animator anim;
     
 
 
@@ -42,6 +45,7 @@ public class Collector : MonoBehaviour
     private void Start()
     {
         collectEffect = GetComponent<ParticleSystem>();
+        audioSource = GetComponent<AudioSource>();
         
     }
 
@@ -80,6 +84,7 @@ public class Collector : MonoBehaviour
             if (collectibleCube.GetIsCollected() == false)
             {
                 collectEffect.Play();
+                audioSource.PlayOneShot(audioClip, 0.4f);
                 collectibleCubesList.Add(collectibleCube);
                 height += 1;
                 collectibleCube.Collect();
@@ -124,6 +129,7 @@ public class Collector : MonoBehaviour
         }
         else
         {
+            anim.SetBool("jumping", true);
             collectibleCubesList[collectibleCubesList.Count - 1].gameObject.transform.parent = null;
             collectibleCubesList.RemoveAt(collectibleCubesList.Count - 1);
             height--;

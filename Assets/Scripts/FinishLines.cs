@@ -6,7 +6,7 @@ public class FinishLines : MonoBehaviour
 {
 
     [SerializeField] private double multiplier;
-    private PointCollector pointCollector;
+    private CheeseCollector cheeseCollector;
     public float finishLineHeight;
     
 
@@ -14,9 +14,9 @@ public class FinishLines : MonoBehaviour
     {
         if (other.gameObject.tag == "Collector")
         {
-            pointCollector = other.GetComponent<PointCollector>();
-            pointCollector.points = multiplier * pointCollector.points;
-            pointCollector.pointsText.text = "Points: " + pointCollector.points;
+            cheeseCollector = other.GetComponent<CheeseCollector>();
+            cheeseCollector.cheeses = multiplier * cheeseCollector.cheeses;
+            cheeseCollector.cheeseText.text = "Cheeses: " + cheeseCollector.cheeses;
         }
     }
 }
