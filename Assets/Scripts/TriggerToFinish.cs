@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 
 using UnityEngine;
-using UnityEngine.VFX;
 
 public class TriggerToFinish : MonoBehaviour
 {
@@ -12,30 +11,38 @@ public class TriggerToFinish : MonoBehaviour
     public SwerveMovement swerveMovement;
     public GameObject finishedPanel;
     [SerializeField] ParticleSystem death;
-    
+    AudioSource audioSource;
+    public AudioClip audioClip;
+    public AudioClip dissapointment;
+
 
     private void Start()
     {
         death = GetComponent<ParticleSystem>();
-        
+        audioSource = GetComponent<AudioSource>();
+
     }
 
-    
+
 
 
     private void OnTriggerEnter(Collider other)
     {
-        
+
 
         if (other.gameObject.tag == "Obstacle")
         {
             death.Play();
+            audioSource.PlayOneShot(audioClip, 0.5f);
+            audioSource.PlayOneShot(dissapointment, 0.5f);
             RestartMethod(other);
         }
 
         if (other.gameObject.tag == "Finish")
         {
-            death.Play();           
+            death.Play();
+            audioSource.PlayOneShot(audioClip, 0.5f);
+            audioSource.PlayOneShot(dissapointment, 0.5f);
             RestartMethod(other);
         }
     }
@@ -46,7 +53,7 @@ public class TriggerToFinish : MonoBehaviour
         {
             
             swerveMovement.forwardSpeed = 0f;
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(2);
             gameOver = true;
 
             if (gameOver)
@@ -78,7 +85,7 @@ public class TriggerToFinish : MonoBehaviour
 
             if (other.gameObject.tag == "Trophy")
             {
-                
+
 
                 if (gameOver)
                 {
@@ -92,9 +99,9 @@ public class TriggerToFinish : MonoBehaviour
 
 
         StartCoroutine(TimeDelay());
-        
 
-  
+
+
     }
 
 }

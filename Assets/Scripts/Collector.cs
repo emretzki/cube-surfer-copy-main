@@ -13,11 +13,10 @@ public class Collector : MonoBehaviour
     [SerializeField] private GameObject Player;
     [SerializeField] ParticleSystem collectEffect;
     [SerializeField] ParticleSystem finishFireworks;
+    [SerializeField] ParticleSystem plusOne;
     public AudioClip audioClip;
     AudioSource audioSource;
-    [SerializeField] private Animator anim;
-    
-
+    public Animator anim;
 
 
 
@@ -26,8 +25,6 @@ public class Collector : MonoBehaviour
     private static Collector _instance;
 
     public static Collector Instance { get { return _instance; } }
-
-    
 
     private void Awake()
     {
@@ -45,12 +42,12 @@ public class Collector : MonoBehaviour
     private void Start()
     {
         collectEffect = GetComponent<ParticleSystem>();
+        plusOne = GetComponent<ParticleSystem>();
         audioSource = GetComponent<AudioSource>();
+        anim = GetComponent<Animator>();
+        
         
     }
-
-
-
 
     //Increasing height of the main cube, collecting cube stays bottom.
     void Update()
@@ -79,11 +76,12 @@ public class Collector : MonoBehaviour
 
             
             var collectibleCube = other.gameObject.GetComponent<CollectibleCubes>();
-            
+            anim.Play("Jumping");
 
             if (collectibleCube.GetIsCollected() == false)
             {
                 collectEffect.Play();
+                plusOne.Play();
                 audioSource.PlayOneShot(audioClip, 0.4f);
                 collectibleCubesList.Add(collectibleCube);
                 height += 1;
@@ -96,6 +94,7 @@ public class Collector : MonoBehaviour
 
         if (other.gameObject.tag == "Finish")
         {
+            
 
             if (collectibleCubesList.Count == 0)
             {
@@ -103,6 +102,7 @@ public class Collector : MonoBehaviour
             }
             else
             {
+                
                 JumpFromObstacles(other);
                 finishActivated = true;
                 finishLines = other.GetComponent<FinishLines>();
@@ -114,14 +114,12 @@ public class Collector : MonoBehaviour
         {
             finishFireworks.Play();
             triggerEvents.RestartMethod(other);
-
         }
-
-
     }
 
     public void JumpFromObstacles(Collider other)
     {
+        
 
         if (collectibleCubesList.Count == 0)
         {
@@ -129,7 +127,7 @@ public class Collector : MonoBehaviour
         }
         else
         {
-            anim.SetBool("jumping", true);
+            
             collectibleCubesList[collectibleCubesList.Count - 1].gameObject.transform.parent = null;
             collectibleCubesList.RemoveAt(collectibleCubesList.Count - 1);
             height--;

@@ -34,6 +34,7 @@ public class CollectibleCubes : MonoBehaviour
         if (other.gameObject.tag == "Obstacle")
         {
             Collector.Instance.JumpFromObstacles(other);
+            
 
         }
     }

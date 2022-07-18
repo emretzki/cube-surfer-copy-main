@@ -5,6 +5,8 @@ public class CheeseCollector : MonoBehaviour
 {
     public double cheeses;
     public Text cheeseText;
+    //public Text cheeseTextGameOver;
+    //public Text cheeseTextFinish;
     [SerializeField] ParticleSystem pointEffect;
     AudioSource audioSource;
     public AudioClip audioClip;
@@ -29,8 +31,10 @@ public class CheeseCollector : MonoBehaviour
     private void PointCalculator(Collider collision)
     {
         Destroy(collision.gameObject);
-        cheeses = cheeses++;
+        cheeses++;
         cheeseText.text = "Cheeses: " + cheeses;
+        //cheeseTextGameOver.text = "Cheeses: " + cheeses;
+        //cheeseTextFinish.text = "Cheeses: " + cheeses;
 
 
     }
